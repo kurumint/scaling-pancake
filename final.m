@@ -1,7 +1,7 @@
 clear all 
 
 %legge l'immagine della quale si vuole trascrivere il contenuto
-I = imread('alph.png');
+I = imread('eng.png');
 
 %porta tale immagine a scala di grigi
 I = rgb2gray(I);
