@@ -2,6 +2,11 @@ clear all
 
 %legge l'immagine della quale si vuole trascrivere il contenuto
 I = imread('eng.png');
+%I = imread('italic.png');
+
+%I = imnoise(I,'gaussian');
+%I = imnoise(I,'salt & pepper');
+%I = imtransform(I,maketform('affine',[1 0 0; .5 1 0; 0 0 1]));
 
 %porta tale immagine a scala di grigi
 I = rgb2gray(I);
@@ -13,6 +18,14 @@ I = imbothat(I, e);
 %sogliatura con otsu e binarizzazione dell'immagine
 T = graythresh(I);
 I = imbinarize(I, T);
+
+%noise reduction
+x=[0 1 1 1 0; 1 1 1 1 1; 0 1 1 1 0];
+y=[1 1 1 1;1 1 1 1;1 1 1 1];
+I=imdilate(I,x);
+I=imerode(I,y);
+
+imshow(I);
 
 %vengono prese le singole lettere
 stats = regionprops(I, 'BoundingBox');
@@ -85,3 +98,12 @@ for i = 1 : length(stats)
     fprintf(s(minIndices(i,1)));
 end
 fprintf('\n');
+
+%utile per la visualizzazione
+%for i = 1:20
+%    subplot(4,5,i);
+%    imshow(imds.Files{perm(i)});
+%end
+
+%pca: sottrarre il valore medio e poi applicare la funzione per ridurre la
+%dimensionalità
